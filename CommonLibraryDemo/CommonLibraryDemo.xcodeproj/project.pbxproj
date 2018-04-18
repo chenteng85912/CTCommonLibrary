@@ -170,8 +170,8 @@
 		3E7212222086D17000A67572 /* Category */ = {
 			isa = PBXGroup;
 			children = (
-				3E7212642086D23D00A67572 /* NSTimer+timerBlock.h */,
-				3E7212652086D23D00A67572 /* NSTimer+timerBlock.m */,
+				3E7212672086D84100A67572 /* CADisplayLink+DisplayBlock.h */,
+				3E7212682086D84100A67572 /* CADisplayLink+DisplayBlock.m */,
 				3E7212242086D17000A67572 /* NSString+Extension.h */,
 				3E72122A2086D17000A67572 /* NSString+Extension.m */,
 				3E7212282086D17000A67572 /* UIAlertController+CTAlertBlock.h */,
@@ -239,8 +239,8 @@
 			children = (
 				3E72124D2086D17000A67572 /* CTAutoRunLabel.h */,
 				3E7212432086D17000A67572 /* CTAutoRunLabel.m */,
-				3E7212672086D84100A67572 /* CADisplayLink+DisplayBlock.h */,
-				3E7212682086D84100A67572 /* CADisplayLink+DisplayBlock.m */,
+				3E7212642086D23D00A67572 /* NSTimer+timerBlock.h */,
+				3E7212652086D23D00A67572 /* NSTimer+timerBlock.m */,
 			);
 			path = CTAutoRunLabel;
 			sourceTree = "<group>";

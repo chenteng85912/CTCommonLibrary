@@ -7,13 +7,13 @@
 //
 
 #import "CTAutoRunLabel.h"
-#import "CADisplayLink+DisplayBlock.h"
+#import "NSTimer+timerBlock.h"
 
 @interface CTAutoRunLabel ()
 
 @property (strong, nonatomic) UILabel *contentLabel;//内容
-@property (strong, nonatomic) CADisplayLink *displayLink;//定时器
-@property (nonatomic, assign) NSInteger speed;
+@property (strong, nonatomic) NSTimer *timer;
+@property (assign, nonatomic) NSInteger speed;
 
 @end
 
@@ -47,11 +47,11 @@
         self.contentLabel.font = [UIFont systemFontOfSize:fontSize?fontSize:15];
         self.contentLabel.textColor = textColor?textColor:[UIColor blackColor];
         self.contentLabel.textAlignment = textAlignment?textAlignment:NSTextAlignmentCenter;
-        _speed = speed;
+        _speed = speed ? speed : 100;
         if (text) {
-    
+          
             [self calucateLabelLenght];
-           
+            
         }
     }
     return self;
@@ -71,7 +71,7 @@
 }
 //开始滚动
 - (void)autoRun{
-    CGFloat centerX = self.contentLabel.center.x-1;
+    CGFloat centerX = self.contentLabel.center.x- 0.005;
     if (centerX<-self.contentLabel.frame.size.width/2) {
         centerX = self.contentLabel.frame.size.width/2+self.frame.size.width;
     }
@@ -81,46 +81,40 @@
 //开始滚动
 - (void)startRun{
     
-    CACurrentMediaTime();
-    self.displayLink.paused = NO;
-    NSLog(@"autoRunLabel start run");
+    [self.timer fire];
+    NSLog(@"%@ autoRunLabel start run",self);
 
 }
 //停止滚动
 - (void)stopRun{
-//    if (!self.displayLink.paused) {
-        self.displayLink.paused = YES;
-
-//    }
-
-    NSLog(@"autoRunLabel stop run");
+    [_timer invalidate];
+    _timer = nil;
+    NSLog(@"%@ autoRunLabel stop run",self);
 }
 #pragma mark - getter and setter
 
 - (UILabel *)contentLabel{
     if (_contentLabel==nil) {
         _contentLabel = [[UILabel alloc] initWithFrame:self.bounds];
-        _contentLabel.textAlignment = NSTextAlignmentCenter;
         [self addSubview:_contentLabel];
     }
     return _contentLabel;
 }
 
-- (CADisplayLink *)displayLink{
-    if (!_displayLink) {
-        
-        __weak typeof(self) weakSelf = self;
-        _displayLink = [CADisplayLink CT_DisplayLinkWithFrameInterval:_speed ? _speed : 30 block:^{
-            [weakSelf autoRun];
-            
-        }];
 
+- (NSTimer *)timer{
+    if (!_timer) {
+        __weak typeof(self) weakSelf = self;
+        _timer = [NSTimer CTScheduledTimerWithTimeInterval:1/_speed block:^{
+            [weakSelf autoRun];
+        } repeats:YES];
     }
-    return _displayLink;
+    return _timer;
 }
+
 - (void)dealloc{
-    [self stopRun];
-    NSLog(@"CTAutoRunLabel dealloc");
+    [self.timer invalidate];
+    NSLog(@"%@ CTAutoRunLabel dealloc",self);
 }
 
 @end

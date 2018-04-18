@@ -19,7 +19,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
-    CTAutoRunLabel *runLabel = [CTAutoRunLabel initWithFrame:CGRectMake(50, 200, 200, 40) labelText:@"跑马灯测试，自动计算内容长度，如果超过显示宽度，自动滚动，不信你试试" font:16 textColor:[UIColor redColor] textAlignment:NSTextAlignmentCenter speed:30];
+    CTAutoRunLabel *runLabel = [CTAutoRunLabel initWithFrame:CGRectMake(50, 200, 200, 40) labelText:@"跑马灯测试，自动计算内容长度，如果超过显示宽度，自动滚动，不信你试试" font:16 textColor:[UIColor redColor] textAlignment:NSTextAlignmentCenter speed:200];
     
     [self.view addSubview:runLabel];
 }

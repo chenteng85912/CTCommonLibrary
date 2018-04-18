@@ -19,7 +19,7 @@ static  NSString const *kCADisplayLinkKey = @"kCADisplayLinkKey";
     CADisplayLink *displayLink =[CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkAction)];
     displayLink.paused = YES;
     displayLink.frameInterval = 60/frameInterval;
-    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+    [displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
     
     if (block) {
         objc_setAssociatedObject(self, &kCADisplayLinkKey, block, OBJC_ASSOCIATION_COPY_NONATOMIC);

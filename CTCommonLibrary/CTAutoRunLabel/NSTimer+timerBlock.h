@@ -10,6 +10,14 @@
 
 @interface NSTimer (timerBlock)
 
+/**
+ 初始化定时器 防止循环引用
+
+ @param interval 间隔时间
+ @param block 代码块
+ @param repeat 是否重复
+ @return 定时器
+ */
 + (NSTimer *)CTScheduledTimerWithTimeInterval:(NSTimeInterval)interval
                                         block:(dispatch_block_t)block
                                       repeats:(BOOL)repeat;

@@ -3,14 +3,18 @@
 //  webhall
 //
 //  Created by Apple on 2016/10/24.
-//  Copyright © 2016年 深圳太极软件有限公司. All rights reserved.
+//  Copyright © 2016年 TENG. All rights reserved.
 //
 
 #import "CTAutoRunLabel.h"
+#import "CADisplayLink+DisplayBlock.h"
 
 @interface CTAutoRunLabel ()
-@property (strong, nonatomic) CADisplayLink *displayLink;//定时器
+
 @property (strong, nonatomic) UILabel *contentLabel;//内容
+@property (strong, nonatomic) CADisplayLink *displayLink;//定时器
+@property (nonatomic, assign) NSInteger speed;
+
 @end
 
 @implementation CTAutoRunLabel
@@ -20,20 +24,20 @@
                          font:(CGFloat)fontSize
                     textColor:(UIColor *)textColor
                 textAlignment:(NSTextAlignment)textAlignment
-                        speed:(NSInteger)speedNum{
+                        speed:(NSInteger)speed{
     return [[self alloc] initWithFrame:frame
                              labelText:text
                                   font:fontSize
                              textColor:textColor
                          textAlignment:textAlignment
-                                 speed:speedNum];
+                                 speed:speed];
 }
 - (instancetype)initWithFrame:(CGRect)frame
                     labelText:(NSString *)text
                          font:(CGFloat)fontSize
                     textColor:(UIColor *)textColor
                 textAlignment:(NSTextAlignment)textAlignment
-                        speed:(NSInteger)speedNum
+                        speed:(NSInteger)speed
 {
     self = [super initWithFrame:frame];
     if (self) {
@@ -43,8 +47,9 @@
         self.contentLabel.font = [UIFont systemFontOfSize:fontSize?fontSize:15];
         self.contentLabel.textColor = textColor?textColor:[UIColor blackColor];
         self.contentLabel.textAlignment = textAlignment?textAlignment:NSTextAlignmentCenter;
-        self.displayLink.frameInterval = speedNum?speedNum:2;
+        _speed = speed;
         if (text) {
+    
             [self calucateLabelLenght];
            
         }
@@ -62,11 +67,8 @@
     }
     self.contentLabel.frame = CGRectMake(20, 0, maxSize.width, self.frame.size.height);
 
-    CACurrentMediaTime();
-    self.displayLink.paused = NO;
-
+    [self startRun];
 }
-
 //开始滚动
 - (void)autoRun{
     CGFloat centerX = self.contentLabel.center.x-1;
@@ -76,21 +78,25 @@
     self.contentLabel.center = CGPointMake(centerX, self.contentLabel.center.y);
 
 }
+//开始滚动
+- (void)startRun{
+    
+    CACurrentMediaTime();
+    self.displayLink.paused = NO;
+    NSLog(@"autoRunLabel start run");
+
+}
 //停止滚动
 - (void)stopRun{
-    self.displayLink.paused = YES;
-    self.displayLink = nil;
+//    if (!self.displayLink.paused) {
+        self.displayLink.paused = YES;
+
+//    }
+
+    NSLog(@"autoRunLabel stop run");
 }
 #pragma mark - getter and setter
-- (CADisplayLink *)displayLink{
-    if (_displayLink == nil) {
-        _displayLink =[CADisplayLink displayLinkWithTarget:self selector:@selector(autoRun)];
-        _displayLink.paused = YES;
-        [_displayLink addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
-        
-    }
-    return _displayLink;
-}
+
 - (UILabel *)contentLabel{
     if (_contentLabel==nil) {
         _contentLabel = [[UILabel alloc] initWithFrame:self.bounds];
@@ -99,9 +105,22 @@
     }
     return _contentLabel;
 }
+
+- (CADisplayLink *)displayLink{
+    if (!_displayLink) {
+        
+        __weak typeof(self) weakSelf = self;
+        _displayLink = [CADisplayLink CT_DisplayLinkWithFrameInterval:_speed ? _speed : 30 block:^{
+            [weakSelf autoRun];
+            
+        }];
+
+    }
+    return _displayLink;
+}
 - (void)dealloc{
-    self.displayLink.paused = YES;
-    self.displayLink = nil;
+    [self stopRun];
+    NSLog(@"CTAutoRunLabel dealloc");
 }
 
 @end

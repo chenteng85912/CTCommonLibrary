@@ -8,7 +8,8 @@
 
 #import "UIButton+CTButtonBlock.h"
 #import <objc/runtime.h>
-static  NSString const *btn_target_key = @"CustomBtnKey";
+
+static  NSString const *kBtn_target_key = @"CustomBtnKey";
 
 @implementation UIButton (CTButtonBlock)
 
@@ -19,12 +20,12 @@ static  NSString const *btn_target_key = @"CustomBtnKey";
 
 - (void)addActionBlock:(CustomBtnBlock)block {
     if (block) {
-        objc_setAssociatedObject(self, &btn_target_key, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
+        objc_setAssociatedObject(self, &kBtn_target_key, block, OBJC_ASSOCIATION_COPY_NONATOMIC);
     }
 }
 
 - (void)invoke:(id)sender {
-    CustomBtnBlock block = objc_getAssociatedObject(self, &btn_target_key);
+    CustomBtnBlock block = objc_getAssociatedObject(self, &kBtn_target_key);
     if (block) {
         block(sender);
     }

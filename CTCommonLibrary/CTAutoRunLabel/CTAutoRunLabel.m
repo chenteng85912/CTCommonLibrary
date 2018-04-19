@@ -50,7 +50,7 @@
         _speed = speed ? speed : 100;
         if (text) {
           
-            [self calucateLabelLenght];
+            [self p_calucateLabelLenght];
             
         }
     }
@@ -58,7 +58,7 @@
 }
 
 //计算长度 判断是否滚动
-- (void)calucateLabelLenght{
+- (void)p_calucateLabelLenght{
    
     CGSize maxSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, self.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.contentLabel.font} context:nil].size;
 
@@ -70,7 +70,7 @@
     [self startRun];
 }
 //开始滚动
-- (void)autoRun{
+- (void)p_autoRun{
     CGFloat centerX = self.contentLabel.center.x- 0.005;
     if (centerX<-self.contentLabel.frame.size.width/2) {
         centerX = self.contentLabel.frame.size.width/2+self.frame.size.width;
@@ -104,16 +104,20 @@
 
 - (NSTimer *)timer{
     if (!_timer) {
+       
         __weak typeof(self) weakSelf = self;
         _timer = [NSTimer CTScheduledTimerWithTimeInterval:1/_speed block:^{
-            [weakSelf autoRun];
+            [weakSelf p_autoRun];
         } repeats:YES];
+        
     }
     return _timer;
 }
 
 - (void)dealloc{
-    [self.timer invalidate];
+    if (_timer) {
+        [_timer invalidate];
+    }
     NSLog(@"%@ CTAutoRunLabel dealloc",self);
 }
 

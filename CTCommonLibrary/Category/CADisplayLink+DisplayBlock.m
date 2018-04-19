@@ -15,7 +15,7 @@ static  NSString const *kCADisplayLinkKey = @"kCADisplayLinkKey";
 
 + (CADisplayLink *)CT_DisplayLinkWithFrameInterval:(NSInteger)frameInterval
                                              block:(dispatch_block_t)block{
-    
+  
     CADisplayLink *displayLink =[CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkAction)];
     displayLink.paused = YES;
     displayLink.frameInterval = 60/frameInterval;

@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^CustomBtnBlock)(UIButton *sender);
+typedef void (^CTCustomBtnBlock)(UIButton *sender);
 
 @interface UIButton (CTButtonBlock)
 
-- (void)blockWithControlEvents:(UIControlEvents)controlEvents  block:(CustomBtnBlock)btnBlcok;
+- (void)blockWithControlEvents:(UIControlEvents)controlEvents  block:(CTCustomBtnBlock)btnBlcok;
 
 @end

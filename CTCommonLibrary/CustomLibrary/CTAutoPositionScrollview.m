@@ -3,10 +3,10 @@
 //
 
 #import "CTAutoPositionScrollview.h"
+#import "UITapGestureRecognizer+TapBlock.h"
 
 #define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
-#define DEVICE_HEIGHT   [[UIScreen mainScreen] bounds].size.height
-
+#define kDEVICE_HEIGHT   [[UIScreen mainScreen] bounds].size.height
 
 @interface CTAutoPositionScrollview ()<UIScrollViewDelegate>
 
@@ -47,7 +47,7 @@
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationCurve:[curve intValue]];
         
-        if (keyBoardEndY<DEVICE_HEIGHT) {
+        if (keyBoardEndY<kDEVICE_HEIGHT) {
             if (![self.gestureRecognizers containsObject:self.tapGesture]) {
                 [self addGestureRecognizer:self.tapGesture];
                 
@@ -64,15 +64,14 @@
 
     }];
 }
-- (void)hiddenKeyboard{
-
-    [self endEditing:YES];
-
-}
 
 - (UITapGestureRecognizer *)tapGesture{
     if (_tapGesture==nil) {
-        _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(hiddenKeyboard)];
+        __weak typeof(self) weakSelf = self;
+        _tapGesture = [UITapGestureRecognizer  initWithBlock:^(UITapGestureRecognizer *sender) {
+            [weakSelf endEditing:YES];
+
+        }];
     }
     return _tapGesture;
 }
@@ -81,12 +80,5 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
-}
-*/
 
 @end

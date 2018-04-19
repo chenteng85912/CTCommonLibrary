@@ -8,14 +8,14 @@
 #import <UIKit/UIKit.h>
 
 typedef NS_ENUM(NSInteger,CTLoopScollDirection) {
-    CTLoopScollDirectionHorizontal, //水平滚动
-    CTLoopScollDirectionVertical,   //竖向滚动
+    CTLoopScollDirectionHorizontal,      //水平滚动
+    CTLoopScollDirectionVertical         //竖向滚动
     
 };
 
 typedef NS_ENUM(NSInteger,CTLoopCellDisplayModal) {
-    CTLoopCellDisplayImage,     //图片单元格
-    CTLoopCellDisplayCustomView,//自定义视图单元格
+    CTLoopCellDisplayImage,              //图片单元格
+    CTLoopCellDisplayCustomView          //自定义视图单元格
     
 } ;
 

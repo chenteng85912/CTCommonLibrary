@@ -11,7 +11,7 @@
    cancelButtonTitle:(NSString *)cancelButtonTitle
    otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles
       preferredStyle:(UIAlertControllerStyle)alertStyle
-               block:(TouchBlock)block{
+               block:(CTAlertTouchBlock)block{
     
    
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:alertStyle];

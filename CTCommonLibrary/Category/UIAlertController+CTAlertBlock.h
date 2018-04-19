@@ -4,7 +4,7 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void (^TouchBlock)(NSInteger buttonIndex);
+typedef void (^CTAlertTouchBlock)(NSInteger buttonIndex);
 
 @interface UIAlertController (TYKYAlertBlock)
 
@@ -21,6 +21,6 @@ typedef void (^TouchBlock)(NSInteger buttonIndex);
      cancelButtonTitle:(NSString *)cancelButtonTitle
      otherButtonTitles:(NSArray <NSString *>*)otherButtonTitles
         preferredStyle:(UIAlertControllerStyle)alertStyle
-                 block:(TouchBlock)block;
+                 block:(CTAlertTouchBlock)block;
 
 @end

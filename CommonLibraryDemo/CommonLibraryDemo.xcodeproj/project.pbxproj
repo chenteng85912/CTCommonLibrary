@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E5109BA2088285500E7F76A /* UITapGestureRecognizer+TapBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E5109B92088285500E7F76A /* UITapGestureRecognizer+TapBlock.m */; };
 		3E72120A2086D15B00A67572 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E7212092086D15B00A67572 /* AppDelegate.m */; };
 		3E72120D2086D15C00A67572 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E72120C2086D15C00A67572 /* ViewController.m */; };
 		3E7212102086D15C00A67572 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E72120E2086D15C00A67572 /* Main.storyboard */; };
@@ -41,6 +42,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E5109B82088285500E7F76A /* UITapGestureRecognizer+TapBlock.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITapGestureRecognizer+TapBlock.h"; sourceTree = "<group>"; };
+		3E5109B92088285500E7F76A /* UITapGestureRecognizer+TapBlock.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITapGestureRecognizer+TapBlock.m"; sourceTree = "<group>"; };
 		3E7212052086D15B00A67572 /* CommonLibraryDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonLibraryDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E7212082086D15B00A67572 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3E7212092086D15B00A67572 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -170,6 +173,8 @@
 		3E7212222086D17000A67572 /* Category */ = {
 			isa = PBXGroup;
 			children = (
+				3E7212642086D23D00A67572 /* NSTimer+timerBlock.h */,
+				3E7212652086D23D00A67572 /* NSTimer+timerBlock.m */,
 				3E7212672086D84100A67572 /* CADisplayLink+DisplayBlock.h */,
 				3E7212682086D84100A67572 /* CADisplayLink+DisplayBlock.m */,
 				3E7212242086D17000A67572 /* NSString+Extension.h */,
@@ -182,6 +187,8 @@
 				3E7212292086D17000A67572 /* UIImage+Scale.m */,
 				3E7212272086D17000A67572 /* UIView+SDXIBExtension.h */,
 				3E72122C2086D17000A67572 /* UIView+SDXIBExtension.m */,
+				3E5109B82088285500E7F76A /* UITapGestureRecognizer+TapBlock.h */,
+				3E5109B92088285500E7F76A /* UITapGestureRecognizer+TapBlock.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -227,9 +234,9 @@
 			isa = PBXGroup;
 			children = (
 				3E7212462086D17000A67572 /* CTAutoPositionScrollview.h */,
+				3E7212492086D17000A67572 /* CTAutoPositionScrollview.m */,
 				3E7212472086D17000A67572 /* KeychainTool.h */,
 				3E7212482086D17000A67572 /* KeychainTool.m */,
-				3E7212492086D17000A67572 /* CTAutoPositionScrollview.m */,
 			);
 			path = CustomLibrary;
 			sourceTree = "<group>";
@@ -239,8 +246,6 @@
 			children = (
 				3E72124D2086D17000A67572 /* CTAutoRunLabel.h */,
 				3E7212432086D17000A67572 /* CTAutoRunLabel.m */,
-				3E7212642086D23D00A67572 /* NSTimer+timerBlock.h */,
-				3E7212652086D23D00A67572 /* NSTimer+timerBlock.m */,
 			);
 			path = CTAutoRunLabel;
 			sourceTree = "<group>";
@@ -323,6 +328,7 @@
 				3E7212602086D17100A67572 /* KeychainTool.m in Sources */,
 				3E72120D2086D15C00A67572 /* ViewController.m in Sources */,
 				3E7212552086D17100A67572 /* CTVersionAutoUpdate.m in Sources */,
+				3E5109BA2088285500E7F76A /* UITapGestureRecognizer+TapBlock.m in Sources */,
 				3E72120A2086D15B00A67572 /* AppDelegate.m in Sources */,
 				3E72121B2086D15D00A67572 /* main.m in Sources */,
 				3E72126C2086DA9100A67572 /* TestViewController.m in Sources */,

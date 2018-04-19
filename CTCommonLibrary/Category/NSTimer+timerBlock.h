@@ -11,7 +11,7 @@
 @interface NSTimer (timerBlock)
 
 /**
- 初始化定时器 防止循环引用
+ 初始化定时器 防止循环引用 兼容 10.0以前版本，10.0之后系统可以调用自带api 
 
  @param interval 间隔时间
  @param block 代码块

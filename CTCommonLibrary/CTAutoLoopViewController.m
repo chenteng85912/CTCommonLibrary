@@ -6,6 +6,7 @@
 //
 
 #import "CTAutoLoopViewController.h"
+#import "NSTimer+timerBlock.h"
 
 @interface CTAutoLoopViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
 
@@ -42,7 +43,7 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     if (self) {
         self.view.frame = frame;
         self.itemSize = frame.size;
-        self.loopOnceTime = onceLoopTime;
+        self.loopOnceTime = onceLoopTime ? onceLoopTime : 2.5;
         self.loopScollDirection = loopScollDirection;
         self.cellDisplayModal = cellDisplayModal;
         [self initCollectionWithFrame:frame];
@@ -95,14 +96,16 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
         self.pageLabel.hidden = NO;
 
     }
-    if (self.dataArray.count>1) {
-        [self addNSTimer];
-    }else{
-        [self stopTimer];
-    }
 
     [self.collectionView reloadData];
     
+    if (self.dataArray.count>1) {
+        
+        [self.timer fire];
+    }else{
+        
+        [self p_stopTimer];
+    }
 }
 
 #pragma mark <UICollectionViewDataSource>
@@ -162,21 +165,9 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     }
     
 }
-//添加定时器
--(void)addNSTimer
-{
-    if (self.loopOnceTime==0) {
-        return;
-    }
-    if (!self.timer) {
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:self.loopOnceTime target:self selector:@selector(nextPage) userInfo:nil repeats:YES];
-        self.timer=timer;
-    }
-    
-}
 
 //自动滚动
--(void)nextPage
+- (void)p_autoLoop
 {
     
     CGPoint offset = self.collectionView.contentOffset;
@@ -189,25 +180,22 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     if (currentPage != _dataArray.count) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:currentPage + 1 inSection:0];
         [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-//        NSLog(@"正在滚动%@",indexPath);
         
     }
     
 }
--(void)startTimer{
-//    NSLog(@"定时器又开始了");
-    //[self.timer setFireDate:[NSDate distantPast]];
-    
-}
--(void)stopTimer{
-//    NSLog(@"定时器停止了");
-    [self.timer invalidate];
-    self.timer = nil;
-    //[self.timer setFireDate:[NSDate distantFuture]];
+
+- (void)p_stopTimer{
+    NSLog(@"定时器停止了");
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
+        
+    }
     
 }
 //重置位置
-- (void)resetContentOffset
+- (void)p_resetContentOffset
 {
     CGPoint offset = self.collectionView.contentOffset;
     NSInteger page = 0;
@@ -231,22 +219,25 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
 }
 //开始拖曳 停止定时器
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
-    [self stopTimer];
+    [self p_stopTimer];
 }
 //手动滚动停止后调用
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-    [self resetContentOffset];
+    [self p_resetContentOffset];
 
-    [self addNSTimer];
+    if (_loopOnceTime>0) {
+        [self.timer fire];
+
+    }
 }
 //自动滚动停止后调用
 - (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
 {
-    [self resetContentOffset];
+    [self p_resetContentOffset];
 }
 #pragma mark 滚动调用
--(void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     NSInteger pageNum = 0;
     if (self.loopScollDirection==0) {
@@ -322,6 +313,20 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     }
     return _pageLabel;
 }
+- (NSTimer *)timer{
+    if (!_timer) {
+        __weak typeof(self) weakSelf = self;
+        _timer = [NSTimer CTScheduledTimerWithTimeInterval:_loopOnceTime block:^{
+            [weakSelf p_autoLoop];
+        } repeats:YES];
+    }
+    return _timer;
+}
+- (void)dealloc{
+    if (_timer) {
+        [_timer invalidate];
 
-
+    }
+    NSLog(@"%@ CTAutoLoopViewController dealloc",self);
+}
 @end

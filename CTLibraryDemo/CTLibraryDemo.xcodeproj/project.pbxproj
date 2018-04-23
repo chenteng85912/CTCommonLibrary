@@ -41,6 +41,7 @@
 		3E896B82208D869C00F93740 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B78208D869C00F93740 /* AppDelegate.m */; };
 		3E896B83208D869C00F93740 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3E896B79208D869C00F93740 /* Info.plist */; };
 		3E896B85208D86BC00F93740 /* CTLibrary.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 3E896B84208D86BC00F93740 /* CTLibrary.podspec */; };
+		3E896B87208D873400F93740 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3E896B86208D873400F93740 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -86,7 +87,7 @@
 		3E896B4C208D819D00F93740 /* ct_toTop@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ct_toTop@2x.png"; sourceTree = "<group>"; };
 		3E896B4D208D819D00F93740 /* ChineseTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChineseTransform.m; sourceTree = "<group>"; };
 		3E896B4E208D819D00F93740 /* ct_close_location@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ct_close_location@2x.png"; sourceTree = "<group>"; };
-		3E896B4F208D819D00F93740 /* CTCommonLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCommonLibrary.h; sourceTree = "<group>"; };
+		3E896B4F208D819D00F93740 /* CTLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTLibrary.h; sourceTree = "<group>"; };
 		3E896B50208D819D00F93740 /* CTCustomePageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTCustomePageController.h; sourceTree = "<group>"; };
 		3E896B51208D819D00F93740 /* CTAutoLoopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CTAutoLoopViewController.h; sourceTree = "<group>"; };
 		3E896B52208D819D00F93740 /* CTTouchIDAuthorize.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CTTouchIDAuthorize.m; sourceTree = "<group>"; };
@@ -103,6 +104,7 @@
 		3E896B79208D869C00F93740 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3E896B7A208D869C00F93740 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		3E896B84208D86BC00F93740 /* CTLibrary.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CTLibrary.podspec; path = ../CTLibrary.podspec; sourceTree = "<group>"; };
+		3E896B86208D873400F93740 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -119,6 +121,7 @@
 		3E7211FC2086D15B00A67572 = {
 			isa = PBXGroup;
 			children = (
+				3E896B86208D873400F93740 /* README.md */,
 				3E896B84208D86BC00F93740 /* CTLibrary.podspec */,
 				3E896B1F208D819D00F93740 /* CTLibrary */,
 				3E896B6B208D869C00F93740 /* CTLibraryDemo */,
@@ -141,15 +144,17 @@
 				3E896B44208D819D00F93740 /* CTAutoLocation */,
 				3E896B51208D819D00F93740 /* CTAutoLoopViewController.h */,
 				3E896B31208D819D00F93740 /* CTAutoLoopViewController.m */,
-				3E896B3C208D819D00F93740 /* CTAutoRunLabel */,
-				3E896B4F208D819D00F93740 /* CTCommonLibrary.h */,
+				3E896B3D208D819D00F93740 /* CTAutoRunLabel.m */,
+				3E896B3E208D819D00F93740 /* CTAutoRunLabel.h */,
+				3E896B4F208D819D00F93740 /* CTLibrary.h */,
 				3E896B50208D819D00F93740 /* CTCustomePageController.h */,
 				3E896B32208D819D00F93740 /* CTCustomePageController.m */,
+				3E896B34208D819D00F93740 /* CTVersionAutoUpdate.h */,
+				3E896B35208D819D00F93740 /* CTVersionAutoUpdate.m */,
 				3E896B37208D819D00F93740 /* CTCustomLibrary */,
 				3E896B3F208D819D00F93740 /* CTTableViewDelegate */,
 				3E896B36208D819D00F93740 /* CTTouchIDAuthorize.h */,
 				3E896B52208D819D00F93740 /* CTTouchIDAuthorize.m */,
-				3E896B33208D819D00F93740 /* CTVersionCheck */,
 			);
 			name = CTLibrary;
 			path = ../CTLibrary;
@@ -178,33 +183,15 @@
 			path = CTCategory;
 			sourceTree = "<group>";
 		};
-		3E896B33208D819D00F93740 /* CTVersionCheck */ = {
-			isa = PBXGroup;
-			children = (
-				3E896B34208D819D00F93740 /* CTVersionAutoUpdate.h */,
-				3E896B35208D819D00F93740 /* CTVersionAutoUpdate.m */,
-			);
-			path = CTVersionCheck;
-			sourceTree = "<group>";
-		};
 		3E896B37208D819D00F93740 /* CTCustomLibrary */ = {
 			isa = PBXGroup;
 			children = (
 				3E896B38208D819D00F93740 /* CTAutoPositionScrollview.h */,
+				3E896B3B208D819D00F93740 /* CTAutoPositionScrollview.m */,
 				3E896B39208D819D00F93740 /* KeychainTool.h */,
 				3E896B3A208D819D00F93740 /* KeychainTool.m */,
-				3E896B3B208D819D00F93740 /* CTAutoPositionScrollview.m */,
 			);
 			path = CTCustomLibrary;
-			sourceTree = "<group>";
-		};
-		3E896B3C208D819D00F93740 /* CTAutoRunLabel */ = {
-			isa = PBXGroup;
-			children = (
-				3E896B3D208D819D00F93740 /* CTAutoRunLabel.m */,
-				3E896B3E208D819D00F93740 /* CTAutoRunLabel.h */,
-			);
-			path = CTAutoRunLabel;
 			sourceTree = "<group>";
 		};
 		3E896B3F208D819D00F93740 /* CTTableViewDelegate */ = {
@@ -221,16 +208,16 @@
 		3E896B44208D819D00F93740 /* CTAutoLocation */ = {
 			isa = PBXGroup;
 			children = (
-				3E896B45208D819D00F93740 /* CTLocationViewController.m */,
-				3E896B46208D819D00F93740 /* CTLocationNavController.h */,
 				3E896B47208D819D00F93740 /* ChineseTransform.h */,
-				3E896B48208D819D00F93740 /* CTLocationViewController.xib */,
-				3E896B49208D819D00F93740 /* CTLocationViewController.h */,
-				3E896B4A208D819D00F93740 /* CTLocationNavController.m */,
-				3E896B4B208D819D00F93740 /* ct_city.plist */,
-				3E896B4C208D819D00F93740 /* ct_toTop@2x.png */,
 				3E896B4D208D819D00F93740 /* ChineseTransform.m */,
+				3E896B4B208D819D00F93740 /* ct_city.plist */,
 				3E896B4E208D819D00F93740 /* ct_close_location@2x.png */,
+				3E896B4C208D819D00F93740 /* ct_toTop@2x.png */,
+				3E896B46208D819D00F93740 /* CTLocationNavController.h */,
+				3E896B4A208D819D00F93740 /* CTLocationNavController.m */,
+				3E896B49208D819D00F93740 /* CTLocationViewController.h */,
+				3E896B45208D819D00F93740 /* CTLocationViewController.m */,
+				3E896B48208D819D00F93740 /* CTLocationViewController.xib */,
 			);
 			path = CTAutoLocation;
 			sourceTree = "<group>";
@@ -313,6 +300,7 @@
 			files = (
 				3E896B83208D869C00F93740 /* Info.plist in Resources */,
 				3E896B80208D869C00F93740 /* Main.storyboard in Resources */,
+				3E896B87208D873400F93740 /* README.md in Resources */,
 				3E896B64208D819D00F93740 /* CTLocationViewController.xib in Resources */,
 				3E896B69208D819D00F93740 /* ct_close_location@2x.png in Resources */,
 				3E896B66208D819D00F93740 /* ct_city.plist in Resources */,

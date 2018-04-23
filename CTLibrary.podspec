@@ -1,22 +1,28 @@
 
 Pod::Spec.new do |s|
     s.name         = 'CTLibrary'
-    s.version      = '0.0.1'
+    s.version      = '1.0.0'
     s.summary      = 'Library for TYKY'
     s.homepage     = 'https://github.com/chenteng85912/CTLibrary'
     s.license       = "MIT"
     s.authors      = {'CHENTENG' => 'chenteng85912@163.com'}
     s.platform     = :ios, '8.0'
-    s.source       = {:git => 'https://github.com/chenteng85912/CTLibrary.git', :tag => s.version}
+    s.source       = {:git => 'https://github.com/chenteng85912/CTLibrary.git', :tag => "#{s.version}"}
     s.requires_arc = true
 
     s.source_files  = "CTLibrary/**/*.{h,m}"
     s.frameworks = 'CoreLocation', 'MapKit', 'LocalAuthentication'
 
+#自定义分类
+    s.subspec 'CTCategory' do |ss|
+    ss.source_files = 'CTLibrary/CTCategory/*.{h,m}'
+end
+
 #自动定位
     s.subspec 'CTAutoLocation' do |ss|
         ss.source_files = 'CTLibrary/CTAutoLocation/*.{h,m}'
         ss.resources = "CTLibrary/CTAutoLocation/*.{png,plist,xib}"
+        ss.dependency 'CTLibrary/CTCategory'
 
     end
 
@@ -44,7 +50,7 @@ Pod::Spec.new do |s|
 
 #版本检测
     s.subspec 'CTVersionCheck' do |ss|
-        ss.source_files = 'CTLibrary/CTVersionCheck/*.{h,m}'
+        ss.source_files = 'CTLibrary/CTVersionAutoUpdate.{h,m}'
     end
 
 #跑马灯
@@ -55,7 +61,9 @@ Pod::Spec.new do |s|
     end
 
 #自定义工具类
-    s.subspec 'CustomLibrary' do |ss|
+    s.subspec 'CTCustomLibrary' do |ss|
         ss.source_files = 'CTLibrary/CTCustomLibrary/*.{h,m}'
+        ss.dependency 'CTLibrary/CTCategory'
+
     end
 end

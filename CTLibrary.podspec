@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
     s.source       = {:git => 'https://github.com/chenteng85912/CTLibrary.git', :tag => "#{s.version}"}
     s.requires_arc = true
 
-    s.source_files  = "CTLibrary/**/*.{h,m}"
+    s.source_files  = "CTLibrary/CTLibrary.h"
     s.frameworks = 'CoreLocation', 'MapKit', 'LocalAuthentication'
 
 #自定义分类

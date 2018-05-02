@@ -27,9 +27,7 @@ static CTTouchIDAuthorize *touchId = nil;
 }
 + (void)startCT_TouchID_WithMessage:(NSString *)message FallBackTitle:(NSString *)fallBackTitle Delegate:(id<CT_TouchID_Delegate>)delegate
 {
-    if (!delegate) {
-        return;
-    }
+   
     [self sigtonTouchId];
     // 1. 判断iOS8.0及以上版本  从iOS8.0开始才有的指纹识别
     if ([UIDevice currentDevice].systemVersion.floatValue < 8.0) {

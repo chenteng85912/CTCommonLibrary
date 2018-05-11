@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E58B2D420A53DAB00FD761B /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 3E58B2D320A53DAA00FD761B /* LaunchScreen.xib */; };
 		3E896B53208D819D00F93740 /* CADisplayLink+DisplayBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B21208D819D00F93740 /* CADisplayLink+DisplayBlock.m */; };
 		3E896B54208D819D00F93740 /* UIAlertController+CTAlertBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B22208D819D00F93740 /* UIAlertController+CTAlertBlock.m */; };
 		3E896B55208D819D00F93740 /* NSTimer+timerBlock.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B23208D819D00F93740 /* NSTimer+timerBlock.m */; };
@@ -35,7 +36,6 @@
 		3E896B7C208D869C00F93740 /* CommonLibraryDemo.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B6D208D869C00F93740 /* CommonLibraryDemo.xcdatamodeld */; };
 		3E896B7D208D869C00F93740 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3E896B70208D869C00F93740 /* Assets.xcassets */; };
 		3E896B7E208D869C00F93740 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B71208D869C00F93740 /* ViewController.m */; };
-		3E896B7F208D869C00F93740 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E896B72208D869C00F93740 /* LaunchScreen.storyboard */; };
 		3E896B80208D869C00F93740 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3E896B74208D869C00F93740 /* Main.storyboard */; };
 		3E896B81208D869C00F93740 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B76208D869C00F93740 /* main.m */; };
 		3E896B82208D869C00F93740 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 3E896B78208D869C00F93740 /* AppDelegate.m */; };
@@ -45,6 +45,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3E58B2D320A53DAA00FD761B /* LaunchScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		3E7212052086D15B00A67572 /* CommonLibraryDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonLibraryDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3E896B21208D819D00F93740 /* CADisplayLink+DisplayBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "CADisplayLink+DisplayBlock.m"; sourceTree = "<group>"; };
 		3E896B22208D819D00F93740 /* UIAlertController+CTAlertBlock.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIAlertController+CTAlertBlock.m"; sourceTree = "<group>"; };
@@ -96,7 +97,6 @@
 		3E896B6F208D869C00F93740 /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		3E896B70208D869C00F93740 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3E896B71208D869C00F93740 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
-		3E896B73208D869C00F93740 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3E896B75208D869C00F93740 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		3E896B76208D869C00F93740 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		3E896B77208D869C00F93740 /* TestViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestViewController.h; sourceTree = "<group>"; };
@@ -140,21 +140,21 @@
 		3E896B1F208D819D00F93740 /* CTLibrary */ = {
 			isa = PBXGroup;
 			children = (
-				3E896B20208D819D00F93740 /* CTCategory */,
 				3E896B44208D819D00F93740 /* CTAutoLocation */,
 				3E896B51208D819D00F93740 /* CTAutoLoopViewController.h */,
 				3E896B31208D819D00F93740 /* CTAutoLoopViewController.m */,
-				3E896B3D208D819D00F93740 /* CTAutoRunLabel.m */,
 				3E896B3E208D819D00F93740 /* CTAutoRunLabel.h */,
-				3E896B4F208D819D00F93740 /* CTLibrary.h */,
+				3E896B3D208D819D00F93740 /* CTAutoRunLabel.m */,
+				3E896B20208D819D00F93740 /* CTCategory */,
 				3E896B50208D819D00F93740 /* CTCustomePageController.h */,
 				3E896B32208D819D00F93740 /* CTCustomePageController.m */,
-				3E896B34208D819D00F93740 /* CTVersionAutoUpdate.h */,
-				3E896B35208D819D00F93740 /* CTVersionAutoUpdate.m */,
 				3E896B37208D819D00F93740 /* CTCustomLibrary */,
+				3E896B4F208D819D00F93740 /* CTLibrary.h */,
 				3E896B3F208D819D00F93740 /* CTTableViewDelegate */,
 				3E896B36208D819D00F93740 /* CTTouchIDAuthorize.h */,
 				3E896B52208D819D00F93740 /* CTTouchIDAuthorize.m */,
+				3E896B34208D819D00F93740 /* CTVersionAutoUpdate.h */,
+				3E896B35208D819D00F93740 /* CTVersionAutoUpdate.m */,
 			);
 			name = CTLibrary;
 			path = ../CTLibrary;
@@ -230,9 +230,9 @@
 				3E896B70208D869C00F93740 /* Assets.xcassets */,
 				3E896B6D208D869C00F93740 /* CommonLibraryDemo.xcdatamodeld */,
 				3E896B79208D869C00F93740 /* Info.plist */,
-				3E896B72208D869C00F93740 /* LaunchScreen.storyboard */,
 				3E896B76208D869C00F93740 /* main.m */,
 				3E896B74208D869C00F93740 /* Main.storyboard */,
+				3E58B2D320A53DAA00FD761B /* LaunchScreen.xib */,
 				3E896B77208D869C00F93740 /* TestViewController.h */,
 				3E896B6C208D869C00F93740 /* TestViewController.m */,
 				3E896B7A208D869C00F93740 /* ViewController.h */,
@@ -305,8 +305,8 @@
 				3E896B69208D819D00F93740 /* ct_close_location@2x.png in Resources */,
 				3E896B66208D819D00F93740 /* ct_city.plist in Resources */,
 				3E896B85208D86BC00F93740 /* CTLibrary.podspec in Resources */,
-				3E896B7F208D869C00F93740 /* LaunchScreen.storyboard in Resources */,
 				3E896B67208D819D00F93740 /* ct_toTop@2x.png in Resources */,
+				3E58B2D420A53DAB00FD761B /* LaunchScreen.xib in Resources */,
 				3E896B7D208D869C00F93740 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,14 +349,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		3E896B72208D869C00F93740 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				3E896B73208D869C00F93740 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
 		3E896B74208D869C00F93740 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (

@@ -14,7 +14,7 @@ static  NSString const *kCADisplayLinkKey = @"kCADisplayLinkKey";
 @implementation CADisplayLink (DisplayBlock)
 
 + (CADisplayLink *)CT_DisplayLinkWithFrameInterval:(NSInteger)frameInterval
-                                             block:(dispatch_block_t)block{
+                                             block:(dispatch_block_t)block {
   
     CADisplayLink *displayLink =[CADisplayLink displayLinkWithTarget:self selector:@selector(displayLinkAction)];
     displayLink.paused = YES;
@@ -27,7 +27,7 @@ static  NSString const *kCADisplayLinkKey = @"kCADisplayLinkKey";
     return displayLink;
 }
 
-+ (void)displayLinkAction{
++ (void)displayLinkAction {
     dispatch_block_t block = objc_getAssociatedObject(self, &kCADisplayLinkKey);
     if (block) {
         block();

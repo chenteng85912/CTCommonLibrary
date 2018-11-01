@@ -13,17 +13,15 @@ static  NSString const *kCTTapGestureRecognizerKey = @"kCTTapGestureRecognizerKe
 
 @implementation UITapGestureRecognizer (TapBlock)
 
-+ (instancetype)initWithBlock:(CTTapGestureBlock)tapBlock{
++ (instancetype)initWithBlock:(CTTapGestureBlock)tapBlock {
     return  [[self alloc] initWithBlock:tapBlock];
 }
-- (instancetype)initWithBlock:(CTTapGestureBlock)tapBlock{
+- (instancetype)initWithBlock:(CTTapGestureBlock)tapBlock {
     self = [super init];
     if (self) {
         [self addActionBlock:tapBlock];
         [self addTarget:self action:@selector(tapAction:)];
-
     }
-    
     return self;
 }
 
@@ -33,7 +31,7 @@ static  NSString const *kCTTapGestureRecognizerKey = @"kCTTapGestureRecognizerKe
     }
 }
 
-- (void)tapAction:(UITapGestureRecognizer *)gestureRecogizer{
+- (void)tapAction:(UITapGestureRecognizer *)gestureRecogizer {
     CTTapGestureBlock block = objc_getAssociatedObject(self, &kCTTapGestureRecognizerKey);
     if (block) {
         block(gestureRecogizer);

@@ -38,7 +38,7 @@ static NSString *identify = @"locationCell";
 
 @implementation CTLocationViewController
 
-+ (void)showLocationVC_WithDelegate:(id <CTLocationViewControllerDelegate>)rootVC{
++ (void)showLocationVC_WithDelegate:(id <CTLocationViewControllerDelegate>)rootVC {
     
     CTLocationViewController *location = [CTLocationViewController new];
     location.delegate = rootVC;
@@ -74,17 +74,17 @@ static NSString *identify = @"locationCell";
     [self checkLocation];
     
 }
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
 
 }
-- (void)viewDidAppear:(BOOL)animated{
+- (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     [self fetchAllCityData];
 
 }
 #pragma mark 初始化本地城市列表
-- (void)fetchAllCityData{
+- (void)fetchAllCityData {
     [self.view bringSubviewToFront:self.indicator];
     [self.indicator startAnimating];
 
@@ -109,7 +109,7 @@ static NSString *identify = @"locationCell";
     
 }
 #pragma mark 开启定位
-- (void)checkLocation{
+- (void)checkLocation {
     //判断用户定位服务是否开启
     if ([CLLocationManager locationServicesEnabled]){
         //每隔多少米定位一次（这里的设置为任何的移动）
@@ -125,13 +125,11 @@ static NSString *identify = @"locationCell";
     }
 
 }
-- (void)backToPre{
+- (void)backToPre {
     [self dismissViewControllerAnimated:YES completion:nil];
-   
 }
 
-- (void)showAlertView{
-    
+- (void)showAlertView {
     [UIAlertController alertWithTitle:@"定位服务未开启" message:@"请在系统设置中开启定位服务" cancelButtonTitle:@"暂不" otherButtonTitles:@[@"去设置"] preferredStyle:UIAlertControllerStyleAlert block:^(NSInteger buttonIndex) {
         if (buttonIndex==1) {
             
@@ -140,15 +138,12 @@ static NSString *identify = @"locationCell";
             if([[UIApplication sharedApplication] canOpenURL:url]) {
                 
                 [[UIApplication sharedApplication] openURL:url];
-                
             }
         }
     }];
- 
-
 }
 #pragma mark 初始化热门城市列表
-- (void)initHotCity{
+- (void)initHotCity {
     
     NSArray *hotCity = @[@"北京市",@"上海市",@"广州市",@"深圳市",@"杭州市",@"武汉市",@"天津市",@"重庆市",@"成都市"];
     for (int i = 0;i <hotCity.count;i ++) {
@@ -177,11 +172,10 @@ static NSString *identify = @"locationCell";
 }
 #pragma mark 定位失败
 - (void)locationManager: (CLLocationManager *)manager
-       didFailWithError: (NSError *)error{
+       didFailWithError: (NSError *)error {
     dispatch_async(dispatch_get_main_queue(), ^{
         [self changeAutoLocationAction:NO];
         [self showAlertView];
-
     });
    
 //    NSLog(@"Error: %@",[error localizedDescription]);
@@ -201,9 +195,8 @@ static NSString *identify = @"locationCell";
 /**
     53  *  当定位到用户的位置时，就会调用（调用的频率比较频繁）
     54  */
-#pragma mark 定位成功回调数据
--(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations
- {
+#pragma mark ------------------------------------ 定位成功回调数据
+-(void)locationManager:(CLLocationManager *)manager didUpdateLocations:(NSArray *)locations {
 
      CLLocation *currentLocation = [locations lastObject]; // 最后一个值为最新位置
      CLGeocoder *geoCoder = [[CLGeocoder alloc] init];
@@ -236,8 +229,7 @@ static NSString *identify = @"locationCell";
  }
 
 #pragma mark 设置变更后返回程序 定位设置变更
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status
-{
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
     switch (status) {
         
         case kCLAuthorizationStatusAuthorizedWhenInUse:
@@ -262,7 +254,7 @@ static NSString *identify = @"locationCell";
 }
 
 #pragma mark  发送城市名称
-- (void)sendCityNameToRootVC:(UIButton *)btn{
+- (void)sendCityNameToRootVC:(UIButton *)btn {
     if ([self.delegate respondsToSelector:@selector(sendCityName:)]) {
         [self.delegate sendCityName:btn.currentTitle];
     }
@@ -271,45 +263,31 @@ static NSString *identify = @"locationCell";
 }
 
 #pragma mark TableViewDelegate
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
-
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return self.sectionArray.count;
-
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 
     NSArray *cityArray = self.allDataDic[self.sectionArray[section]];
     return cityArray.count;
-  
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     return 50;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
     return 25;
-  
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section;
-{
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
     return 0.01;
-    
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *mycell = [tableView dequeueReusableCellWithIdentifier:identify forIndexPath:indexPath];
     
     if (!mycell) {
         mycell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identify];
-        
     }
     [mycell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
     mycell.textLabel.font = [UIFont systemFontOfSize:15];
@@ -317,42 +295,35 @@ static NSString *identify = @"locationCell";
 
     NSString *title = self.sectionArray[indexPath.section];
     NSArray *pinyinArray = self.allDataDic[title];
-    
     mycell.textLabel.text = self.chinesePinyin[pinyinArray[indexPath.row]];
 
     return mycell;
 }
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
     UITableViewCell *mycell = [tableView cellForRowAtIndexPath:indexPath];
     if ([self.delegate respondsToSelector:@selector(sendCityName:)]) {
         [self.delegate sendCityName:mycell.textLabel.text];
     }
     [self backToPre];
-
 }
 
 #pragma mark 添加索引条
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView {
     return  self.sectionArray;
-   
 }
 
 - (NSInteger)tableView:(UITableView *)tableView sectionForSectionIndexTitle:(NSString *)title atIndex:(NSInteger)index {
-
     return index;
 }
 
 #pragma mark 索引名称
 - (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
- 
     return self.sectionArray[section];
-    
 }
 
 #pragma mark 定位状态
-- (void)changeAutoLocationAction:(BOOL)state{
+- (void)changeAutoLocationAction:(BOOL)state {
     self.autoLocationBtn.selected = !state;
     self.autoLocationBtn.enabled = !state;
     if (state) {
@@ -360,40 +331,34 @@ static NSString *identify = @"locationCell";
         self.activity.hidden = NO;
         [self.activity startAnimating];
     }else{
-    
         [self.manager stopUpdatingLocation];
         [self.activity stopAnimating];
     }
-   
 }
 
 #pragma mark 滚动到顶部
 - (IBAction)scrollToTop:(id)sender {
     NSIndexPath *index = [NSIndexPath indexPathForRow:0 inSection:0];
     [self.tbView scrollToRowAtIndexPath:index atScrollPosition:UITableViewScrollPositionTop animated:YES];
-
 }
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
 
     [UIView animateWithDuration:0.25 animations:^{
         [UIView setAnimationBeginsFromCurrentState:YES];
         [UIView setAnimationCurve:7];
-        
         if (scrollView.contentOffset.y>self.headView.frame.size.height) {
             self.topBtn.alpha = 1.0;
         }else{
             self.topBtn.alpha = 0.0;
         }
     }];
-  
 }
 //获取最顶部控制器
 + (UIViewController *)p_currentViewController {
     
     UIViewController* vc = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (1)
-    {
+    while (1) {
         if ([vc isKindOfClass:[UITabBarController class]]) {
             vc = ((UITabBarController *)vc).selectedViewController;
         }else if ([vc isKindOfClass:[UINavigationController class]]) {
@@ -406,12 +371,11 @@ static NSString *identify = @"locationCell";
     }
     return vc;
 }
-- (CLLocationManager *)manager{
+- (CLLocationManager *)manager {
     if (!_manager) {
         _manager = [CLLocationManager new];
         _manager.delegate = self;
         [_manager requestWhenInUseAuthorization];//第一次启动时弹出使用位置的提示框
-        
     }
     return _manager;
 }

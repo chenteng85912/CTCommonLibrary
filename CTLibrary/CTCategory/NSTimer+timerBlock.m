@@ -12,7 +12,7 @@
 
 + (NSTimer *)CTScheduledTimerWithTimeInterval:(NSTimeInterval)interval
                                         block:(dispatch_block_t)block
-                                      repeats:(BOOL)repeats{
+                                      repeats:(BOOL)repeats {
    
     NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:interval
                                                       target:self
@@ -24,7 +24,7 @@
     return timer;
 }
 
-+ (void)timerAction:(NSTimer *)timer{
++ (void)timerAction:(NSTimer *)timer {
     dispatch_block_t block = timer.userInfo;
     if (block) {
         block();

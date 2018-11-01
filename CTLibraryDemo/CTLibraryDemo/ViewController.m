@@ -7,11 +7,9 @@
 //
 
 #import "ViewController.h"
-#import "TestViewController.h"
-#import "CTAutoRunLabel.h"
+#import "CTTouchIDAuthorize.h"
 
-@interface ViewController ()
-@property (nonatomic, strong) CTAutoRunLabel *autoRunlabel;
+@interface ViewController ()<CT_TouchID_Delegate>
 
 @end
 
@@ -19,24 +17,23 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
-    _autoRunlabel = [CTAutoRunLabel initWithFrame:CGRectMake(50, 200, 200, 40) labelText:@"跑马灯测试，自动计算内容长度，如果超过显示宽度，自动滚动，不信你试试" font:16 textColor:[UIColor redColor] textAlignment:NSTextAlignmentCenter speed:100];
-    
-    [self.view addSubview:_autoRunlabel];
-   
 }
 - (IBAction)testAction:(UIButton *)sender {
-    [self.navigationController pushViewController:[TestViewController new] animated:YES];
-
+    [CTTouchIDAuthorize startCT_TouchID_WithMessage:@"登录" FallBackTitle:@"确定" Delegate:self];
 }
-- (IBAction)btnAction:(UIButton *)sender {
-    sender.selected = !sender.selected;
-    if (sender.selected) {
-        [_autoRunlabel stopRun];
-    }else{
-        [_autoRunlabel startRun];
-    }
+/**
+ *
+ *  验证成功
+ */
+- (void)CT_TouchID_AuthorizeSuccess {
+    NSLog(@"success");
 }
-
+/**
+ *
+ *  验证失败
+ */
+- (void)CT_TouchID_AuthorizeFailure {
+    NSLog(@"fail");
+}
 
 @end

@@ -10,24 +10,18 @@
 CGFloat const  TITLE_SCALE = 0.2;
 CGFloat const  PAGE_HEAD_HEIGHT = 45.0;
 CGFloat const  LINE_HEIGHT = 3.0;
-
+CGFloat const  kMoreBtnWidth = 74.0;
 NSInteger const MAX_BUTTON_NUMBER = 5;
-
-#define  TITILE_FONT  DEVICE_WIDTH==320?12:14
 
 @interface CTCustomePageController ()<UIScrollViewDelegate>
 
 @property (assign, nonatomic) CGFloat titleBtnWidth;        //标题按钮宽度
+@property (assign, nonatomic) CGFloat titleWidth;           //底部线条宽度
 @property (strong, nonatomic) UIScrollView *contentScrView; //内容底部滚动视图
 @property (strong, nonatomic) UIButton *curruntBtn;         //当前选中按钮
-@property (strong, nonatomic) NSArray *RGBArray;            //按钮选中颜色RGB
 @property (strong, nonatomic) UIView *bottomLine;           //底部线条
-@property (assign, nonatomic) CGFloat titleWidth;           //底部线条宽度
-
-@property (strong, nonatomic) UIButton *moreBtn;            //头部更多按钮
-@property (strong, nonatomic) UIView *moreBtnView;          //按钮展示
-
-@property (assign, nonatomic) BOOL isLoad;
+@property (copy  , nonatomic) NSArray *RGBSelectedArr;      //按钮选中颜色RGB
+@property (copy  , nonatomic) NSArray *RGBNormalArr;        //按钮正常颜色RGB
 
 @end
 
@@ -35,31 +29,30 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    [self p_initUI];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    if (!_isLoad) {
-        _isLoad = YES;
-        if (!_viewControllers) {
-            return;
-        }
-        [self initUI];
-    }
 }
 
 #pragma mark 界面布局
-- (void)initUI{
+- (void)p_initUI{
     if (!_viewControllers) {
         return;
     }
-  
-    _titleBtnWidth = DEVICE_WIDTH/MIN(_viewControllers.count, MAX_BUTTON_NUMBER);
-    
-    if (_headBtnStyle==NavigationButtonView) {
-        _titleBtnWidth = self.headScrView.frame.size.width/_viewControllers.count;
-
+    switch (_headBtnStyle) {
+        case DefaultButtonView:
+            _titleBtnWidth = DEVICE_WIDTH/MIN(_viewControllers.count, MAX_BUTTON_NUMBER);
+            break;
+        case HeadShowMoreBtnView:
+            _titleBtnWidth = (DEVICE_WIDTH-kMoreBtnWidth)/MIN(_viewControllers.count, MAX_BUTTON_NUMBER);
+            break;
+        case NavigationButtonView:
+            _titleBtnWidth = self.headScrView.frame.size.width/_viewControllers.count;
+            break;
     }
+
     if (!_lineHeight) {
         _lineHeight = LINE_HEIGHT;
     }
@@ -67,50 +60,50 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
         _headBtnHeigth = PAGE_HEAD_HEIGHT;
     }
     if (!_selectedColor) {
-        _selectedColor = [UIColor redColor];
+        _selectedColor = [UIColor blackColor];
     }
-    
+    if (!_normalColor) {
+        _normalColor = [UIColor blackColor];
+    }
     if (_selectedIndex>_viewControllers.count-1) {
         _selectedIndex = 0;
     }
-    
+    if (!_titleFont) {
+        _titleFont = [UIFont systemFontOfSize:15];
+    }
     //添加头部标题
-    if (_headBtnStyle==DefaultButtonView) {
-     
+    if (_headBtnStyle!=NavigationButtonView) {
         [self.view addSubview:self.headScrView];
-        
     }
     for (int i = 0; i <_viewControllers.count; i++) {
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(_titleBtnWidth*i, 0, _titleBtnWidth, _headBtnHeigth)];
+        CGFloat btnY = 0;
+        if (_isHiddenNav&&UIDevice.currentDevice.systemVersion.floatValue<11.0) {
+            btnY = -20;
+        }
+        
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(_titleBtnWidth*i, btnY, _titleBtnWidth, _headBtnHeigth)];
         btn.tag = i+100;
         if (_headBtnStyle==NavigationButtonView) {
             btn.titleEdgeInsets = UIEdgeInsetsMake(5, 0, 0, 0);
         }
-        [btn addTarget:self action:@selector(switchViewControllers:) forControlEvents:UIControlEventTouchUpInside];
+        [btn addTarget:self action:@selector(p_switchViewControllers:) forControlEvents:UIControlEventTouchUpInside];
         UIViewController *vc = _viewControllers[i];
         btn.backgroundColor = [UIColor clearColor];
-        [btn setTitle:vc.title forState:UIControlStateNormal];
+        [btn setTitle:vc.navigationItem.title forState:UIControlStateNormal];
         
-        btn.titleLabel.font = [UIFont systemFontOfSize:TITILE_FONT];
+        btn.titleLabel.font = _titleFont;
         if (i==_selectedIndex) {
             _curruntBtn = btn;
-            [self setButScale:_curruntBtn withScale:1];
+            [self p_setButScale:_curruntBtn withScale:1];
         }else{
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-
+            [btn setTitleColor:_normalColor forState:UIControlStateNormal];
         }
         [self.headScrView addSubview:btn];
-        _titleWidth = [self strLenth:btn.currentTitle]*(1+TITLE_SCALE);
-        
+        _titleWidth = [self p_strLenth:btn.currentTitle]*(1+TITLE_SCALE);
     }
    
     //添加底部线条
     if (_lineShowMode!=UnDisplayMode) {
-        if (_headBtnStyle!=NavigationButtonView) {
-            UIView *bottom =[[UIView alloc] initWithFrame:CGRectMake(0, _headBtnHeigth-0.5, DEVICE_WIDTH, 0.5)];
-            bottom.backgroundColor = [UIColor lightGrayColor];
-            [self.view addSubview:bottom];
-        }
       
         UIView *line = [UIView new];
         line.tag = 891101;
@@ -118,11 +111,14 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
         if (_lineShowMode == AboveShowMode) {
             line.frame = CGRectMake(_titleBtnWidth/2-_titleWidth/2, 0, _titleWidth, _lineHeight);
         }else{
-            line.frame = CGRectMake(_titleBtnWidth/2-_titleWidth/2, _headBtnHeigth-_lineHeight, _titleWidth, _lineHeight);
-
+            if (_headBtnStyle==NavigationButtonView) {
+                line.frame = CGRectMake(_titleBtnWidth/2-_titleWidth/2, _headBtnHeigth-_lineHeight-2, _titleWidth, _lineHeight);
+            }else {
+                line.frame = CGRectMake(_titleBtnWidth/2-_titleWidth/2, _headBtnHeigth-_lineHeight, _titleWidth, _lineHeight);
+            }
         }
         line.layer.masksToBounds = YES;
-        line.layer.cornerRadius = 2.0;
+        line.layer.cornerRadius = 1.0;
         self.bottomLine = line;
         [self.headScrView addSubview:line];
     }
@@ -159,7 +155,7 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
     
     _curruntBtn = [self.headScrView viewWithTag:index+100];
     _selectedIndex = index;
-    [self refreshHeadView:index];
+    [self p_refreshHeadView:index];
     
     if (self.scrollBlock) {
         self.scrollBlock(index);
@@ -191,6 +187,7 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
     if (scale<0||scale>_viewControllers.count-1) {
         return;
     }
+    
     // 获取需要操作的的左边的button
     NSInteger leftIndex = scale;
     UIButton *leftBtn = [self.headScrView viewWithTag:leftIndex+100];
@@ -205,27 +202,25 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
     CGFloat leftScale = 1- rightScale;
     
     // 设置比例
-    [self setButScale:leftBtn withScale:leftScale];
-    [self setButScale:rightBtn withScale:rightScale];
+    [self p_setButScale:leftBtn withScale:leftScale];
+    [self p_setButScale:rightBtn withScale:rightScale];
     
     if (_lineShowMode!=UnDisplayMode) {
-       
         UIView *line = (UIView *)[self.headScrView viewWithTag:891101];
         line.center = CGPointMake(_titleBtnWidth*scale+_titleBtnWidth/2, line.center.y);
     }
 }
 
+
 #pragma mark 切换视图控制器
-- (void)switchViewControllers:(UIButton *)btn{
+- (void)p_switchViewControllers:(UIButton *)btn{
     if (btn==_curruntBtn) {
         return;
     }
-    [UIView animateWithDuration:0.25 animations:^{
-        self.moreBtnView.alpha = 0.0;
-    }];
+ 
     _curruntBtn.transform = CGAffineTransformMakeScale(1.0, 1.0);
     
-    [_curruntBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [_curruntBtn setTitleColor:_normalColor forState:UIControlStateNormal];
     _curruntBtn = [self.headScrView viewWithTag:btn.tag];
     
     _selectedIndex = btn.tag-100;
@@ -239,7 +234,7 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
     offset.x = _selectedIndex * DEVICE_WIDTH;
     [self.contentScrView setContentOffset:offset animated:NO];
     
-    [self refreshHeadView:btn.tag-100];
+    [self p_refreshHeadView:btn.tag-100];
     
     // 取出需要显示的控制器
     UIViewController *willShowVc = self.childViewControllers[_selectedIndex];
@@ -248,7 +243,7 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
     [self.contentScrView addSubview:willShowVc.view];
 }
 
-- (void)refreshHeadView:(NSInteger)index{
+- (void)p_refreshHeadView:(NSInteger)index{
     if (_viewControllers.count<=MAX_BUTTON_NUMBER) {
         return;
     }
@@ -258,75 +253,73 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
 }
 
 #pragma mark 设置头部按钮大小渐变
-- (void)setButScale:(UIButton *)btn withScale:(CGFloat)scale {
+- (void)p_setButScale:(UIButton *)btn withScale:(CGFloat)scale {
     if (![btn isKindOfClass:[UIButton class]]) {
         return;
     }
+
+    CGFloat nred = [self.RGBNormalArr[0] floatValue];
+    CGFloat ngreen = [self.RGBNormalArr[1] floatValue];
+    CGFloat nblue = [self.RGBNormalArr[2] floatValue];
     
-    CGFloat red = [self.RGBArray[0] floatValue];
-    CGFloat green = [self.RGBArray[1] floatValue];
-    CGFloat blue = [self.RGBArray[2] floatValue];
+    CGFloat red = [self.RGBSelectedArr[0] floatValue];
+    CGFloat green = [self.RGBSelectedArr[1] floatValue];
+    CGFloat blue = [self.RGBSelectedArr[2] floatValue];
 
     // 颜色渐变
-    CGFloat red1 = scale*red;
-    CGFloat green1 = green*scale;
-    CGFloat blue1 = blue*scale;
+    CGFloat red1 = (red-nred)*scale+nred;
+    CGFloat green1 = (green-ngreen)*scale+ngreen;
+    CGFloat blue1 = (blue-nblue)*scale+nblue;
     [btn setTitleColor:[UIColor colorWithRed:red1 green:green1 blue:blue1 alpha:1.0] forState:UIControlStateNormal];
-    
+
     // 大小缩放比例
-    CGFloat transformScale = 1 + (scale * TITLE_SCALE);
-    btn.transform = CGAffineTransformMakeScale(transformScale, transformScale);
+//    CGFloat transformScale = 1 + (scale * TITLE_SCALE);
+//    btn.transform = CGAffineTransformMakeScale(transformScale, transformScale);
 }
 
-- (CGFloat)strLenth:(NSString *)string
-{
-    return [string boundingRectWithSize:CGSizeMake(MAXFLOAT, _headBtnHeigth) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:TITILE_FONT]} context:nil].size.width;
+- (CGFloat)p_strLenth:(NSString *)string {
+    return [string boundingRectWithSize:CGSizeMake(MAXFLOAT, _headBtnHeigth) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:_titleFont} context:nil].size.width;
 }
-
-- (void)refreshHeadBtnAndLineColor:(UIColor *)nColor{
+- (void)switchChildrenVC:(NSInteger)seletedIndex {
+    if (seletedIndex<0||seletedIndex>_viewControllers.count-1) {
+        return;
+    }
+    UIButton *btn = [self.headScrView viewWithTag:seletedIndex+100];
+    [self p_switchViewControllers:btn];
+}
+- (void)refreshHeadBtnAndLineColor:(UIColor *)nColor {
     self.selectedColor = nColor;
-    self.RGBArray = nil;
+    self.RGBSelectedArr = nil;
     self.bottomLine.backgroundColor = self.selectedColor;
     [self.curruntBtn setTitleColor:self.selectedColor forState:UIControlStateNormal];
 }
-- (void)showMoreBtnView:(UIButton *)btn{
-    for (UIButton *btn in self.moreBtnView.subviews) {
-        if (_curruntBtn.tag==btn.tag) {
-            [btn setTitleColor:_selectedColor forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont boldSystemFontOfSize:TITILE_FONT];
-
-        }else{
-            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-            btn.titleLabel.font = [UIFont systemFontOfSize:TITILE_FONT];
-
-        }
-    }
-
-    [UIView animateWithDuration:0.25 animations:^{
-        self.moreBtnView.alpha = !self.moreBtnView.alpha;
-    }];
-}
-- (UIScrollView *)headScrView{
+#pragma mark ------------------------------------ lazy
+- (UIScrollView *)headScrView {
     if (_headScrView==nil) {
-       
-         _headScrView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, _headBtnHeigth)];
-        if (_headBtnStyle==NavigationButtonView) {
-            _headScrView.frame = CGRectMake(0, 0, DEVICE_WIDTH-180, _headBtnHeigth);
-            _headScrView.backgroundColor = [UIColor clearColor];
-
-        }else{
+         _headScrView = UIScrollView.new;
+        if (_headBtnStyle!=NavigationButtonView) {
             _headScrView.backgroundColor = [UIColor whiteColor];
-          
+        }
+        switch (_headBtnStyle) {
+            case DefaultButtonView:
+                _headScrView.frame = CGRectMake(0, 0, self.view.frame.size.width, _headBtnHeigth);
+                break;
+            case HeadShowMoreBtnView:
+                _headScrView.frame = CGRectMake(0, 0, self.view.frame.size.width-kMoreBtnWidth, _headBtnHeigth);
+                break;
+            case NavigationButtonView:
+                _headScrView.frame = CGRectMake(0, 0, DEVICE_WIDTH-180, _headBtnHeigth);
+                _headScrView.backgroundColor = [UIColor clearColor];
+                break;
         }
         _headScrView.contentSize = CGSizeMake( _titleBtnWidth* _viewControllers.count, _headBtnHeigth);
         _headScrView.scrollEnabled = _viewControllers.count>MAX_BUTTON_NUMBER?true:false;
         _headScrView.showsHorizontalScrollIndicator = NO;
         _headScrView.bounces = _headScrView.scrollEnabled;
-        
     }
     return _headScrView;
 }
-- (UIScrollView *)contentScrView{
+- (UIScrollView *)contentScrView {
     if (_contentScrView==nil) {
         _contentScrView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, _headBtnHeigth, self.view.frame.size.width , self.view.frame.size.height-_headBtnHeigth)];
         if (_headBtnStyle==NavigationButtonView) {
@@ -338,22 +331,32 @@ NSInteger const MAX_BUTTON_NUMBER = 5;
         _contentScrView.directionalLockEnabled = YES;
         if (_viewControllers.count>1) {
             _contentScrView.delegate = self;
-
         }
     }
     return _contentScrView;
 }
 
-- (NSArray *)RGBArray{
-    if (_RGBArray==nil) {
+- (NSArray *)RGBSelectedArr {
+    if (!_RGBSelectedArr) {
         CGFloat red = 0.0;
         CGFloat green = 0.0;
         CGFloat blue = 0.0;
         CGFloat alpha = 0.0;
         [_selectedColor getRed:&red green:&green blue:&blue alpha:&alpha];
-        _RGBArray = @[@(red), @(green), @(blue), @(alpha)];
+        _RGBSelectedArr = @[@(red), @(green), @(blue), @(alpha)];
     }
-    return _RGBArray;
+    return _RGBSelectedArr;
+}
+- (NSArray *)RGBNormalArr {
+    if (!_RGBNormalArr) {
+        CGFloat red = 0.0;
+        CGFloat green = 0.0;
+        CGFloat blue = 0.0;
+        CGFloat alpha = 0.0;
+        [_normalColor getRed:&red green:&green blue:&blue alpha:&alpha];
+        _RGBNormalArr = @[@(red), @(green), @(blue), @(alpha)];
+    }
+    return _RGBNormalArr;
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

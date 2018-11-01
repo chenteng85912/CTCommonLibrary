@@ -24,7 +24,7 @@
                          font:(CGFloat)fontSize
                     textColor:(UIColor *)textColor
                 textAlignment:(NSTextAlignment)textAlignment
-                        speed:(NSInteger)speed{
+                        speed:(NSInteger)speed {
     return [[self alloc] initWithFrame:frame
                              labelText:text
                                   font:fontSize
@@ -37,8 +37,7 @@
                          font:(CGFloat)fontSize
                     textColor:(UIColor *)textColor
                 textAlignment:(NSTextAlignment)textAlignment
-                        speed:(NSInteger)speed
-{
+                        speed:(NSInteger)speed {
     self = [super initWithFrame:frame];
     if (self) {
         self.clipsToBounds = YES;
@@ -58,7 +57,7 @@
 }
 
 //计算长度 判断是否滚动
-- (void)p_calucateLabelLenght{
+- (void)p_calucateLabelLenght {
    
     CGSize maxSize = [self.contentLabel.text boundingRectWithSize:CGSizeMake(MAXFLOAT, self.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.contentLabel.font} context:nil].size;
 
@@ -70,30 +69,27 @@
     [self startRun];
 }
 //开始滚动
-- (void)p_autoRun{
+- (void)p_autoRun {
     CGFloat centerX = self.contentLabel.center.x- 0.005;
     if (centerX<-self.contentLabel.frame.size.width/2) {
         centerX = self.contentLabel.frame.size.width/2+self.frame.size.width;
     }
     self.contentLabel.center = CGPointMake(centerX, self.contentLabel.center.y);
-
 }
 //开始滚动
-- (void)startRun{
-    
+- (void)startRun {
     [self.timer fire];
     NSLog(@"%@ autoRunLabel start run",self);
-
 }
 //停止滚动
-- (void)stopRun{
+- (void)stopRun {
     [_timer invalidate];
     _timer = nil;
     NSLog(@"%@ autoRunLabel stop run",self);
 }
 #pragma mark - getter and setter
 
-- (UILabel *)contentLabel{
+- (UILabel *)contentLabel {
     if (_contentLabel==nil) {
         _contentLabel = [[UILabel alloc] initWithFrame:self.bounds];
         [self addSubview:_contentLabel];
@@ -102,9 +98,8 @@
 }
 
 
-- (NSTimer *)timer{
+- (NSTimer *)timer {
     if (!_timer) {
-       
         __weak typeof(self) weakSelf = self;
         _timer = [NSTimer CTScheduledTimerWithTimeInterval:1/_speed block:^{
             [weakSelf p_autoRun];
@@ -114,7 +109,7 @@
     return _timer;
 }
 
-- (void)dealloc{
+- (void)dealloc {
     if (_timer) {
         [_timer invalidate];
     }

@@ -5,12 +5,10 @@
 //类别中 手动实现get set方法
 @implementation UIView (SDXIBExtension)
 // setter for corner Radius
-- (void) setCornerRadius:(CGFloat)cornerRadius
-{
+- (void) setCornerRadius:(CGFloat)cornerRadius {
     self.layer.cornerRadius = cornerRadius;
 }
-- (CGFloat) cornerRadius
-{
+- (CGFloat) cornerRadius {
     return self.layer.cornerRadius;
 }
 // setter for borderColor
@@ -21,12 +19,10 @@
     return [UIColor colorWithCGColor:self.layer.borderColor];
 }
 // setter for borderWidth
-- (void) setBorderWidth:(CGFloat)borderWidth
-{
+- (void) setBorderWidth:(CGFloat)borderWidth {
     self.layer.borderWidth = borderWidth;
 }
-- (CGFloat) borderWidth
-{
+- (CGFloat) borderWidth {
     return self.layer.borderWidth;
 }
 

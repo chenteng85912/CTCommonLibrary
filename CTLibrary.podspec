@@ -23,14 +23,12 @@ end
         ss.source_files = 'CTLibrary/CTAutoLocation/*.{h,m}'
         ss.resources = "CTLibrary/CTAutoLocation/*.{png,plist,xib}"
         ss.dependency 'CTLibrary/CTCategory'
-
     end
 
 #自动滚动广告
     s.subspec 'CTAutoLoop' do |ss|
         ss.source_files = 'CTLibrary/CTAutoLoopViewController.{h,m}'
         ss.dependency 'CTLibrary/CTCategory'
-
     end
 
 #页面控制器
@@ -57,13 +55,11 @@ end
     s.subspec 'CTAutoRunLabel' do |ss|
         ss.source_files = 'CTLibrary/CTAutoRunLabel.{h,m}'
         ss.dependency 'CTLibrary/CTCategory'
-
     end
 
 #自定义工具类
     s.subspec 'CTCustomLibrary' do |ss|
         ss.source_files = 'CTLibrary/CTCustomLibrary/*.{h,m}'
         ss.dependency 'CTLibrary/CTCategory'
-
     end
 end

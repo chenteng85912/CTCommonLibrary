@@ -8,7 +8,11 @@
 #import "CTAutoLoopViewController.h"
 #import "NSTimer+timerBlock.h"
 
-@interface CTAutoLoopViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,UIScrollViewDelegate>
+@interface CTAutoLoopViewController ()
+<UICollectionViewDelegate,
+UICollectionViewDataSource,
+UICollectionViewDelegateFlowLayout,
+UIScrollViewDelegate>
 
 @property (assign, nonatomic) float loopOnceTime;//循环一次时间
 @property (assign, nonatomic) CGSize itemSize;//单元格大小
@@ -29,7 +33,7 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
 + (instancetype)initWithFrame:(CGRect)frame
                  onceLoopTime:(float)onceLoopTime
              cellDisplayModal:(CTLoopCellDisplayModal)cellDisplayModal
-                scollDiretion:(CTLoopScollDirection)loopScollDirection{
+                scollDiretion:(CTLoopScollDirection)loopScollDirection {
     return [[self alloc] initWithFrame:frame
                           onceLoopTime:onceLoopTime
                       cellDisplayModal:cellDisplayModal
@@ -38,7 +42,7 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
 - (instancetype)initWithFrame:(CGRect)frame
                                   onceLoopTime:(float)onceLoopTime
                               cellDisplayModal:(CTLoopCellDisplayModal)cellDisplayModal
-                                 scollDiretion:(CTLoopScollDirection)loopScollDirection{
+                                 scollDiretion:(CTLoopScollDirection)loopScollDirection {
     self = [super init];
     if (self) {
         self.view.frame = frame;
@@ -49,11 +53,10 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
         [self initCollectionWithFrame:frame];
     }
     return self;
-    
 }
 
 //初始化
-- (void)initCollectionWithFrame:(CGRect)frame{
+- (void)initCollectionWithFrame:(CGRect)frame {
     
     [self.view addSubview:self.collectionView];
     
@@ -76,7 +79,7 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     [super viewDidLoad];
 }
 //添加内容
-- (void)addLocalModels:(NSArray *)array{
+- (void)addLocalModels:(NSArray *)array {
     if (!array||![array isKindOfClass:[NSArray class]]) {
         return;
     }
@@ -100,10 +103,8 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     [self.collectionView reloadData];
     
     if (self.dataArray.count>1) {
-        
         [self.timer fire];
     }else{
-        
         [self p_stopTimer];
     }
 }
@@ -116,7 +117,7 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     return self.dataArray.count+1;
 }
 
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:AutoLoopReuseIdentifier forIndexPath:indexPath];
     [cell.contentView.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 
@@ -131,7 +132,6 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
             [cell.contentView addSubview:customView];
         }
         return cell;
-        
     }else{
         id model = nil;
         if (indexPath.row == self.dataArray.count) {
@@ -146,16 +146,14 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
             img.image = (UIImage *)model;
         }else if ([model isKindOfClass:[NSString class]]){
             img.image = [UIImage imageNamed:model];
-            
         }
         [cell.contentView addSubview:img];
     }
-    
     return cell;
 }
 
 #pragma mark <UICollectionViewDelegate>
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if ([self.delegate respondsToSelector:@selector(CTAutoLoopViewController:didSelectItemAtIndexPath:)]) {
         NSIndexPath *newIndex = indexPath;
         if (newIndex.row == self.dataArray.count) {
@@ -163,12 +161,10 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
         }
         [self.delegate CTAutoLoopViewController:collectionView didSelectItemAtIndexPath:newIndex];
     }
-    
 }
 
 //自动滚动
-- (void)p_autoLoop
-{
+- (void)p_autoLoop {
     
     CGPoint offset = self.collectionView.contentOffset;
     NSInteger currentPage = 0;
@@ -180,23 +176,18 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     if (currentPage != _dataArray.count) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForItem:currentPage + 1 inSection:0];
         [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:YES];
-        
     }
-    
 }
 
-- (void)p_stopTimer{
+- (void)p_stopTimer {
     NSLog(@"定时器停止了");
     if (_timer) {
         [_timer invalidate];
         _timer = nil;
-        
     }
-    
 }
 //重置位置
-- (void)p_resetContentOffset
-{
+- (void)p_resetContentOffset {
     CGPoint offset = self.collectionView.contentOffset;
     NSInteger page = 0;
     if (self.loopScollDirection==0) {
@@ -215,25 +206,20 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
             [self.collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionNone animated:NO];
         }
     }
-
 }
 //开始拖曳 停止定时器
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView{
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView {
     [self p_stopTimer];
 }
 //手动滚动停止后调用
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
     [self p_resetContentOffset];
-
     if (_loopOnceTime>0) {
         [self.timer fire];
-
     }
 }
 //自动滚动停止后调用
-- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView
-{
+- (void)scrollViewDidEndScrollingAnimation:(UIScrollView *)scrollView {
     [self p_resetContentOffset];
 }
 #pragma mark 滚动调用
@@ -253,26 +239,24 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     self.pageLabel.text = [NSString stringWithFormat:@"%ld/%lu",pageNum+1,(unsigned long)self.dataArray.count];
 
     self.pageCT.currentPage = pageNum;
-   
 }
 
-- (NSMutableArray *)dataArray{
+- (NSMutableArray *)dataArray {
     if (_dataArray ==nil) {
         _dataArray = [NSMutableArray new];
     }
     return _dataArray;
 }
-- (UIPageControl *)pageCT{
+- (UIPageControl *)pageCT {
     if (_pageCT ==nil) {
         _pageCT = [UIPageControl new];
         _pageCT.currentPageIndicatorTintColor = [UIColor whiteColor];
         _pageCT.pageIndicatorTintColor = [UIColor lightGrayColor];
         _pageCT.hidesForSinglePage = YES;
-        
     }
     return _pageCT;
 }
-- (UICollectionView *)collectionView{
+- (UICollectionView *)collectionView {
     if (_collectionView ==nil) {
         UICollectionViewFlowLayout *layout = [UICollectionViewFlowLayout new];
         layout.itemSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height);
@@ -281,10 +265,8 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
         layout.sectionInset = UIEdgeInsetsZero;
         if (self.loopScollDirection==CTLoopScollDirectionHorizontal) {
             layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-            
         }else{
             layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-            
         }
         _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height) collectionViewLayout:layout];
         _collectionView.backgroundColor  = [UIColor whiteColor];
@@ -295,11 +277,10 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.directionalLockEnabled  = YES;
         _collectionView.scrollsToTop = NO;
-        
     }
     return _collectionView;
 }
-- (UILabel *)pageLabel{
+- (UILabel *)pageLabel {
     if (_pageLabel==nil) {
         _pageLabel = [[UILabel alloc] initWithFrame:CGRectMake(self.view.frame.size.width-40, self.view.frame.size.height-30, 30, 20)];
         _pageLabel.textAlignment = NSTextAlignmentCenter;
@@ -309,11 +290,10 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
         _pageLabel.layer.masksToBounds = YES;
         _pageLabel.layer.cornerRadius = 10.0;
         _pageLabel.hidden = YES;
-        
     }
     return _pageLabel;
 }
-- (NSTimer *)timer{
+- (NSTimer *)timer {
     if (!_timer) {
         __weak typeof(self) weakSelf = self;
         _timer = [NSTimer CTScheduledTimerWithTimeInterval:_loopOnceTime block:^{
@@ -322,10 +302,9 @@ static NSString * const AutoLoopReuseIdentifier = @"AutoLoopReuseIdentifier";
     }
     return _timer;
 }
-- (void)dealloc{
+- (void)dealloc {
     if (_timer) {
         [_timer invalidate];
-
     }
     NSLog(@"%@ CTAutoLoopViewController dealloc",self);
 }

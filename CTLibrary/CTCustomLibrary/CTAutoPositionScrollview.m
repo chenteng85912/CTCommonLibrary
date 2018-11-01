@@ -15,9 +15,8 @@
 @end
 @implementation CTAutoPositionScrollview
 
-- (void)drawRect:(CGRect)rect{
+- (void)drawRect:(CGRect)rect {
     [self setup];
-
 }
 - (void)awakeFromNib {
     [super awakeFromNib];
@@ -26,14 +25,13 @@
 
     if (CGSizeEqualToSize(self.contentSize, CGSizeZero) ) {
         self.contentSize = self.bounds.size;
-        
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chageBunldeViewFrame:) name:UIKeyboardWillShowNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(chageBunldeViewFrame:) name:UIKeyboardWillHideNotification object:nil];
     self.delegate = self;
 }
 //键盘监听
-- (void)chageBunldeViewFrame:(NSNotification *)notification{
+- (void)chageBunldeViewFrame:(NSNotification *)notification {
     CGRect keyRece = [[[notification userInfo] objectForKey:_UIKeyboardFrameEndUserInfoKey] CGRectValue];
 
     NSDictionary *userInfo = [notification userInfo];
@@ -50,27 +48,22 @@
         if (keyBoardEndY<kDEVICE_HEIGHT) {
             if (![self.gestureRecognizers containsObject:self.tapGesture]) {
                 [self addGestureRecognizer:self.tapGesture];
-                
             }
             self.contentInset = UIEdgeInsetsMake(0, 0, keyRece.size.height, 0);
         }else{
             if ([self.gestureRecognizers containsObject:self.tapGesture]) {
                 [self removeGestureRecognizer:self.tapGesture];
-
             }
             self.contentInset = UIEdgeInsetsZero;
-
         }
-
     }];
 }
 
-- (UITapGestureRecognizer *)tapGesture{
+- (UITapGestureRecognizer *)tapGesture {
     if (_tapGesture==nil) {
         __weak typeof(self) weakSelf = self;
         _tapGesture = [UITapGestureRecognizer  initWithBlock:^(UITapGestureRecognizer *sender) {
             [weakSelf endEditing:YES];
-
         }];
     }
     return _tapGesture;
@@ -78,7 +71,6 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 @end

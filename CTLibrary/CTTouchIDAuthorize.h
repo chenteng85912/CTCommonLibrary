@@ -87,6 +87,12 @@
 @interface CTTouchIDAuthorize : NSObject
 
 /**
+ 检测设备是否支持该功能
+
+ @return 结果
+ */
++ (BOOL)checkAuthorize;
+/**
  *
  *  发起指纹验证：
  */

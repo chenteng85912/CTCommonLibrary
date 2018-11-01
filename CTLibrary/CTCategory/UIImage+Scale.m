@@ -11,8 +11,7 @@
 @implementation UIImage (Scale)
 
 //按大小裁剪图片
-- (UIImage*)scaleToSize:(CGSize)size
-{
+- (UIImage*)scaleToSize:(CGSize)size {
     UIGraphicsBeginImageContextWithOptions(size, NO,0.0);
     CGRect imageRect = CGRectMake(0.0, 0.0, size.width, size.height);
     [self drawInRect:imageRect];
@@ -23,9 +22,7 @@
     
 }
 //切图
-- (UIImage*)getSubImage:(CGRect)rect
-
-{
+- (UIImage*)getSubImage:(CGRect)rect {
     
     CGImageRef subImageRef = CGImageCreateWithImageInRect(self.CGImage, rect);
     
@@ -58,8 +55,7 @@
 /**
  * 旋转图片
  */
-- (UIImage *)makeOrientationImage:(UIImageOrientation)orientation
-{
+- (UIImage *)makeOrientationImage:(UIImageOrientation)orientation {
     long double rotate = 0.0;
     CGRect rect;
     float translateX = 0;
@@ -116,8 +112,7 @@
 }
 
 //缩放图片
--(UIImage *)resizeImage
-{
+-(UIImage *)resizeImage {
     return  [self stretchableImageWithLeftCapWidth:self.size.width / 2 topCapHeight:self.size.height / 2];
 }
 
@@ -128,8 +123,7 @@
     return [self resizableImageWithCapInsets:insets];
 }
 //调整方向
-- (UIImage *)fixOrientation
-{
+- (UIImage *)fixOrientation {
     if (self.imageOrientation == UIImageOrientationUp)
         return self;
     

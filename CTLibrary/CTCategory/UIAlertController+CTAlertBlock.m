@@ -13,7 +13,6 @@
       preferredStyle:(UIAlertControllerStyle)alertStyle
                block:(CTAlertTouchBlock)block{
     
-   
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:alertStyle];
     if (cancelButtonTitle) {
         [alert addAction:[UIAlertAction actionWithTitle:cancelButtonTitle style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -41,9 +40,8 @@
 //获取最顶部控制器
 + (UIViewController *)p_currentViewController {
     
-    UIViewController* vc = [UIApplication sharedApplication].keyWindow.rootViewController;
-    while (1)
-    {
+    UIViewController *vc = [UIApplication sharedApplication].keyWindow.rootViewController;
+    while (1) {
         if ([vc isKindOfClass:[UITabBarController class]]) {
             vc = ((UITabBarController *)vc).selectedViewController;
         }else if ([vc isKindOfClass:[UINavigationController class]]) {

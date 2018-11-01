@@ -10,8 +10,8 @@
 #import <UIKit/UIKit.h>
 #import <StoreKit/StoreKit.h>
 
-NSString *const ROOT_APP_STORE  =  @"http://itunes.apple.com/lookup?id=%@"; //获取应用相关信息的地址
-NSString *const APP_STORE_URL  = @"itms-apps://itunes.apple.com/cn/app/id%@?mt=8";//苹果商店跳转地址
+NSString *const kROOT_APP_STORE  =  @"http://itunes.apple.com/lookup?id=%@"; //获取应用相关信息的地址
+NSString *const kAPP_STORE_URL  = @"itms-apps://itunes.apple.com/cn/app/id%@?mt=8";//苹果商店跳转地址
 
 @interface CTVersionAutoUpdate ()<SKStoreProductViewControllerDelegate,NSURLSessionDelegate>
 
@@ -22,15 +22,11 @@ NSString *const APP_STORE_URL  = @"itms-apps://itunes.apple.com/cn/app/id%@?mt=8
 @implementation CTVersionAutoUpdate
 
 static CTVersionAutoUpdate *VERSION = nil;
-
-+ (void)sharedVersion
-{
++ (void)sharedVersion {
     static dispatch_once_t pred;
     dispatch_once(&pred, ^{
         VERSION = [[self alloc] init];
-        
     });
-    
 }
 
 //版本更新
@@ -41,21 +37,19 @@ static CTVersionAutoUpdate *VERSION = nil;
     [self sharedVersion];
     VERSION.storeStyle = showStyle;
     VERSION.appId = appId;
-    NSString *appUrl = [NSString stringWithFormat:ROOT_APP_STORE,appId];
+    NSString *appUrl = [NSString stringWithFormat:kROOT_APP_STORE,appId];
     [self sendGetRequestWithUrl:appUrl complete:^(NSError *error, NSDictionary *objectDic) {
         if (error) {
             return;
-            
         }
         if (!objectDic) {
             return;
         }
         [self checkVersionInfo:objectDic];
     }];
-   
 }
 //版本号比对
-+ (void)checkVersionInfo:(NSDictionary *)versionDic{
++ (void)checkVersionInfo:(NSDictionary *)versionDic {
     NSArray *verArray = versionDic[@"results"];
     if (verArray.count==0) {
         return;
@@ -67,7 +61,6 @@ static CTVersionAutoUpdate *VERSION = nil;
     }
     if ([storeVersion compare:localVersion options:NSCaseInsensitiveSearch | NSNumericSearch] == NSOrderedDescending) {
         [self openAPPStore];
-
     }
 //    BOOL isNeedUpdate = NO;
 //    NSArray *curentVersionArr = [localVersion componentsSeparatedByString:@"."];  //当前版本
@@ -100,31 +93,27 @@ static CTVersionAutoUpdate *VERSION = nil;
 }
 
 //打开苹果商店
-+ (void)openAPPStore{
++ (void)openAPPStore {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"温馨提示" message:@"有新版本可以更新哦!" preferredStyle:UIAlertControllerStyleAlert];
     
-    [alert addAction:[UIAlertAction actionWithTitle:@"下次吧" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }]];
+    [alert addAction:[UIAlertAction actionWithTitle:@"下次吧" style:UIAlertActionStyleDefault handler:nil]];
     [alert addAction:[UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (VERSION.storeStyle==OpenAppStoreInApp) {
             [self openAppStoreInApp];
             return;
         }
-        NSURL *appUrl = [NSURL URLWithString:[NSString stringWithFormat:APP_STORE_URL,VERSION.appId]];
+        NSURL *appUrl = [NSURL URLWithString:[NSString stringWithFormat:kAPP_STORE_URL,VERSION.appId]];
         if ([[UIApplication sharedApplication] canOpenURL:appUrl]) {
             [[UIApplication sharedApplication] openURL:appUrl];
             VERSION = nil;
         }
-        
     }]];
 
     [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:alert animated:YES completion:nil];
-    
 }
 
 //应用内部打开苹果商店 真机调试
-+ (void)openAppStoreInApp{
++ (void)openAppStoreInApp {
     
     SKStoreProductViewController *storeProductViewContorller = [[SKStoreProductViewController alloc] init];
     storeProductViewContorller.delegate = VERSION;
@@ -140,16 +129,12 @@ static CTVersionAutoUpdate *VERSION = nil;
                  }
                  //AS应用界面
                  [[UIApplication sharedApplication].keyWindow.rootViewController presentViewController:storeProductViewContorller animated:YES completion:nil];
-                 
              });
-             
          }];
-        
     });
 }
 //get请求
-+ (void)sendGetRequestWithUrl:(NSString *)urlStr complete:(void(^)(NSError *error, NSDictionary *objectDic))afterRequest
-{
++ (void)sendGetRequestWithUrl:(NSString *)urlStr complete:(void(^)(NSError *error, NSDictionary *objectDic))afterRequest {
     
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
     request.HTTPMethod = @"GET";
@@ -161,8 +146,7 @@ static CTVersionAutoUpdate *VERSION = nil;
     }];
 }
 
-+ (void)sendRequest:(NSMutableURLRequest *)request complete:(void(^)(NSError *error, NSDictionary *objectDic))afterRequest{
-    
++ (void)sendRequest:(NSMutableURLRequest *)request complete:(void(^)(NSError *error, NSDictionary *objectDic))afterRequest {
     
     NSURLSessionConfiguration *sessionConfiguration = [NSURLSessionConfiguration defaultSessionConfiguration];
     NSURLSession *session = [NSURLSession sessionWithConfiguration:sessionConfiguration delegate:[self new] delegateQueue:[[NSOperationQueue alloc]init]];
@@ -177,7 +161,6 @@ static CTVersionAutoUpdate *VERSION = nil;
                 afterRequest(nil,dict);
             }
         });
-        
     }];
     
     //发送请求
@@ -195,8 +178,7 @@ static CTVersionAutoUpdate *VERSION = nil;
  */
 - (void)URLSession:(NSURLSession *)session
 didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge
- completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler
-{
+ completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition disposition, NSURLCredential *credential))completionHandler {
     //AFNetworking中的处理方式
     NSURLSessionAuthChallengeDisposition disposition = NSURLSessionAuthChallengePerformDefaultHandling;
     __block NSURLCredential *credential = nil;

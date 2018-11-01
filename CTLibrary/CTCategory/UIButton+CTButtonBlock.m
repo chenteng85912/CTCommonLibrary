@@ -13,7 +13,7 @@ static  NSString const *kBtn_target_key = @"CustomBtnKey";
 
 @implementation UIButton (CTButtonBlock)
 
-- (void)blockWithControlEvents:(UIControlEvents)controlEvents block:(CTCustomBtnBlock)btnBlcok{
+- (void)blockWithControlEvents:(UIControlEvents)controlEvents block:(CTCustomBtnBlock)btnBlcok {
     [self addActionBlock:btnBlcok];
     [self addTarget:self action:@selector(invoke:) forControlEvents:controlEvents];
 }
